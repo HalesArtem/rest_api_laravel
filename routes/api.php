@@ -23,7 +23,7 @@ Route::prefix('/freelancer')->group(function () {
     ('/', ['uses' => 'FreelanceController@getFreelances']);
     // в будущем получает имя фрилансера
     Route::get
-    ('/{freelance_name}', ['uses' => 'FreelanceController@get']);
+    ('/{freelance_name}', ['uses' => 'FreelanceController@detail']);
     // создание фрилансера
     Route::post
     ('/', ['uses' => 'FreelanceController@create']);
@@ -39,7 +39,7 @@ Route::prefix('/customers')->group(function () {
     Route::get
     ('/', ['uses' => 'CustomerController@get']);
     Route::get
-    ('/{customer_name}', ['uses' => 'CustomerController@get']);
+    ('/{customer_name}', ['uses' => 'CustomerController@detail']);
     Route::post
     ('/', ['uses' => 'CustomerController@create']);
     Route::delete
@@ -52,7 +52,7 @@ Route::prefix('/orders')->group(function () {
     Route::get
     ('/', ['uses' => 'OrderController@get']);
     Route::get
-    ('/{order_name}', ['uses' => 'OrderController@get']);
+    ('/{order_name}', ['uses' => 'OrderController@detail']);
     Route::post
     ('/', ['uses' => 'OrderController@create']);
     Route::delete
@@ -65,7 +65,7 @@ Route::prefix('/applications')->group(function () {
     Route::get
     ('/', ['uses' => 'ApplicationController@get']);
     Route::get
-    ('/{application_name}', ['uses' => 'ApplicationController@get']);
+    ('/{application_name}', ['uses' => 'ApplicationController@detail']);
     Route::post
     ('/', ['uses' => 'ApplicationController@create']);
     Route::delete
