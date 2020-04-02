@@ -1,37 +1,99 @@
 <?php
 
-
 namespace App\Http\Controllers;
 
 
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Http\Request;
 
-abstract class ApiControllers
+abstract class ApiControllers extends Controller
 {
-// абстрактный контроллер который будет всем передавать методы
-// нужен для того чтоб не дублировать код
-// добавляем методы
-protected $model;
+    /**
+     * @var Request
+     */
+    protected $request;
 
-public function get(Request $request){
-    $limit = (int) $request->get('limit', 100);
-    $offset = (int) $request->get('offset', 0) ;
+    /**
+     * @var Model
+     */
+    protected $model;
 
-    $result = $this->model->limit($limit)->offset($offset)->get();
+    /**
+     * @param Request $request
+     */
+    public function get(Request $request) {
 
-    $this->sendResponse($result,'OK',200);
-}
-public function detail(string $objectName = null){
+        $limit = (int) $request->get('limit', 100);
+        $offset = (int) $request->get('offset', 0);
 
-}
-public function update(int $objectId){
+        $result = $this->model->limit($limit)->offset($offset)->get();
 
-}
-public function delete(int $objectId){
+        $this->sendResponse($result, 'OK',200);
 
-}
-public function create(){
+    }
 
-}
+    /**
+     * @param int $entityId
+     * @return mixed
+     */
+    public function detail(int $entityId) {
+
+        $entity = $this->model->find($entityId)->first();
+
+        if (!$entity) {
+            return $this->sendError('Not Found', 404);
+        }
+
+        return $this->sendResponse($entity, 'OK',200);
+
+    }
+
+    /**
+     * @param int $entityId
+     * @param Request $request
+     * @return mixed
+     */
+    public function update(int $entityId, Request $request) {
+
+        $entity = $this->model->find($entityId)->first();
+
+        if (!$entity) {
+            return $this->sendError('Not Found', 404);
+        }
+
+        $data = $request->validated();
+
+        $this->model->fill($data)->push();
+
+        return $this->sendResponse(null, 'Updated',204);
+    }
+
+    /**
+     * @param int $entityId
+     * @return mixed
+     */
+    public function delete(int $entityId) {
+
+        $entity = $this->model->find($entityId);
+
+        if (!$entity) {
+            return $this->sendError('Not Found', 404);
+        }
+
+        $entity->delete();
+
+        return $this->sendResponse(null, 'Deleted',204);
+
+    }
+
+    public function create(Request $request) {
+
+        $data = $request->validated();
+
+        $this->model->fill($data)->push();
+
+        return $this->sendResponse(null, 'Created', 201);
+
+    }
 
 }
