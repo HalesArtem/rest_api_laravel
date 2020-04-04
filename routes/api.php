@@ -16,22 +16,22 @@ use Illuminate\Http\Request;
 //Route::middleware('auth:api')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
-Route::prefix('/freelancer')->group(function () {
+Route::prefix('/freelancers')->group(function () {
 
     // роут получает всех фрилансеров
     Route::get
-    ('/', ['uses' => 'FreelanceController@getFreelances']);
+    ('/', ['uses' => 'FreelancerController@get']);
     // в будущем получает имя фрилансера
     Route::get
-    ('/{freelance_name}', ['uses' => 'FreelanceController@detail']);
+    ('/{freelance_name}', ['uses' => 'FreelancerController@detail']);
     // создание фрилансера
     Route::post
-    ('/', ['uses' => 'FreelanceController@create']);
+    ('/', ['uses' => 'FreelancerController@createFreelancer']);
     // удаление фрилансера
     Route::delete
-    ('/{freelancer_id}', ['uses' => 'FreelanceController@delete'])->where(['freelancer_id' => '[0-9+]']);
+    ('/{freelancer_id}', ['uses' => 'FreelancerController@delete'])->where(['freelancer_id' => '[0-9+]']);
     // обновить запись
-    Route::put('/{freelancer_id}', ['uses' => 'FreelanceController@update'])->where(['freelancer_id' => '[0-9+]']);
+    Route::put('/{freelancer_id}', ['uses' => 'FreelancerController@updateFreelancer'])->where(['freelancer_id' => '[0-9+]']);
 });
 
 Route::prefix('/customers')->group(function () {

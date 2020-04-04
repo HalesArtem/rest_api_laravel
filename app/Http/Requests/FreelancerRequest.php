@@ -27,7 +27,7 @@ class FreelancerRequest extends ApiRequest
             'name.required' => 'Name required!',
             'price.required' => 'Price required!',
             'email.required' => 'Email required!',
-            'phone.string' => 'Phone should be sting'
+            'phone.string' => 'Phone should be string'
         ];
     }
 
